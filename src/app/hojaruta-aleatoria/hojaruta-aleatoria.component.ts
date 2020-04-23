@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './servicio/api.service';
 import { Hojaruta  } from './modelo/hojaruta';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -19,6 +20,11 @@ export class HojarutaAleatoriaComponent implements OnInit {
   descripcion = '';
   prioridad = '';
 
+  public hojasrutas: any = null;
+  public errorEstatus: string;
+  public errorEstatusText: string;
+  public loginStatus: boolean = false;
+
   constructor(public apiService: ApiService) { 
 
     console.log('Atiliator!!! HojarutaAleatoriaComponent.constructor');
@@ -31,9 +37,25 @@ export class HojarutaAleatoriaComponent implements OnInit {
 
     console.log('Atiliator!!! solicitando... getHojaRutaAleatoria');
 
-    this.apiService.getHojaRutaAleatoria().subscribe(hojasrutas => {
-      console.log('Atiliator!!!... ' + hojasrutas);
-    });
+    this.apiService.getHojaRutaAleatoria().subscribe(
+      hojasrutas => {
+        this.hojasrutas = hojasrutas
+        this.loginStatus = false;
+        console.log('Atiliator!!!... hojasrutas     : ' + hojasrutas);
+        console.log('Atiliator!!!... hojasrutas this: ' + this.hojasrutas);
+      },
+      (err: HttpErrorResponse) => {
+        this.loginStatus = true;
+        this.errorEstatus = err.status + ''
+        this.errorEstatusText = err.statusText + ''
+        console.log('Atiliator!!!... ERROR en getHojaRutaAleatoria: ' + err.message);
+        console.log('Atiliator!!!... Estatus     : ' + err.status);
+        console.log('Atiliator!!!... EstatusText : ' + err.statusText);
+      },
+      () => {
+        console.log('Petición finalizada...');
+      }
+    );
   }
 
   getHojaRuta(id : string) {

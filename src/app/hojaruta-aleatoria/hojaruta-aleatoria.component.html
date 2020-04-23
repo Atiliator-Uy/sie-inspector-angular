@@ -4,11 +4,34 @@
 <p>Ingrese Token de seguridad y presione Solicitar</p>
 <input type="text">
 <button (click)="getHojaRutaAleatoria()">Solicitar Hoja de Ruta Aleatoria</button>
-<h2></h2>
-<h2>Id              : {{ getId() }} </h2> 
-<h2>TipoInspecion   : {{ getTipoInspecion() }} </h2> 
-<h2>Fecha           : {{ getFecha() }} </h2> 
-<h2>FechaHora       : {{ getFechaHora() }} </h2> 
-<h2>Titulo          : {{ getTitulo() }} </h2> 
-<h2>Descripción     : {{ getDescripcion() }} </h2> 
-<h2>Prioridad       : {{ getPrioridad() }} </h2>
+
+<div *ngIf="loginStatus">
+    <h1>Login</h1>
+    <table>
+        <tbody>
+            <tr>
+                <h3>Estatus : </h3>
+                <td> {{ errorEstatus }} </td> 
+            </tr>
+            <tr>
+                <h3>Descripción : </h3>
+                <td> {{ errorEstatusText }} </td> 
+            </tr>
+        </tbody> 
+    </table>
+</div>
+
+<div *ngFor="let item of hojasrutas">
+    <h2></h2>
+    <h3>Id              : {{ item.id }} </h3>
+    <h3>TipoInspecion   : {{ item.tipoInspecion }} </h3>
+    <h3>Fecha           : {{ item.fecha }} </h3> 
+    <h3>FechaHora       : {{ item.fechaHora }} </h3> 
+    <h3>Titulo          : {{ item.titulo }} </h3> 
+    <h3>Descripción     : {{ item.descripcion }} </h3> 
+    <h3>Prioridad       : {{ item.prioridad }} </h3>
+
+    <pre>{{ hojasrutas | json }}</pre>
+ </div>
+
+
